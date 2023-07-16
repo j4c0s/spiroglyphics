@@ -38,40 +38,40 @@
   <canvas id="spiralCanvas" width="2480" height="2480"></canvas>
 
   <script>
-    // Funkcja do rysowania spirali na kanwie
+    // Function to draw the spiral on the canvas
     function drawSpiral(image) {
       var spiralCanvas = document.getElementById('spiralCanvas');
       var ctx1 = imageCanvas.getContext('2d');
       var ctx2 = spiralCanvas.getContext('2d');
 
-      // Czyszczenie kanwy spiralCanvas przed narysowaniem nowej spirali
+      // Clear the spiralCanvas before drawing a new spiral
       ctx2.clearRect(0, 0, spiralCanvas.width, spiralCanvas.height);
 
-      // Ustal parametry spirali
+      // Set the spiral parameters
       var center = spiralCanvas.width / 2;
       var radiusStep = parseFloat(document.getElementById('radiusStepRange').value);
       var angleStep = parseFloat(document.getElementById('angleStepRange').value);
 
-      // Ustal szerokość spirali na podstawie wczytanego obrazu
-      var max_line_width = parseInt(document.getElementById('lineWidthRange').value); // Szerokość linii
-      var min_line_width = parseInt(document.getElementById('minLineWidthRange').value); // Minimalna szerokość lini
+      // Set the line width based on the loaded image
+      var max_line_width = parseInt(document.getElementById('lineWidthRange').value);
+      var min_line_width = parseInt(document.getElementById('minLineWidthRange').value);
 
-      // Inicjalizuj poprzednie punkty spiralne
+      // Initialize previous spiral points
       var prevX = prevY = center;
 
-      // Rysowanie spiralnej linii
+      // Draw the spiral line
       var angle = radius = 0;
 
       while (radius < center) {
         var x = center + radius * Math.cos(angle);
         var y = center + radius * Math.sin(angle);
 
-        // Oblicz kontrast tła w danym punkcie
+        // Calculate the background contrast at the current point
         var imageData = ctx1.getImageData(x, y, 1, 1);
         var grayscaleValue = imageData.data[0];
         var backgroundContrast = 1 - grayscaleValue / 255;
 
-        // Oblicz szerokość linii na podstawie średniej z poprzedniego punktu i aktualnego punktu
+        // Calculate the line width based on the average of the previous point and the current point
         var lineWidth = Math.max(max_line_width * backgroundContrast, min_line_width);
 
         ctx2.beginPath();
@@ -84,19 +84,19 @@
         angle += Math.radians(angleStep);
         radius += radiusStep;
 
-        // Aktualizuj poprzednie punkty i szerokość linii
+        // Update the previous points and line width
         prevX = x;
         prevY = y;
         prevLineWidth = lineWidth;
       }
     }
 
-    // Funkcja pomocnicza do zamiany stopni na radiany
+    // Helper function to convert degrees to radians
     Math.radians = function(degrees) {
       return degrees * Math.PI / 180;
     };
 
-    // Funkcja pomocnicza do pomniejszania obrazu
+    // Helper function to resize the image
     function resizeImage(image, targetSize) {
       var canvas = document.createElement('canvas');
       var ctx = canvas.getContext('2d');
@@ -106,7 +106,7 @@
       return canvas;
     }
 
-    // Obsługa wczytywania obrazu przez użytkownika
+    // Handle image upload by the user
     document.getElementById('fileInput').addEventListener('change', function(event) {
       var file = event.target.files[0];
       var reader = new FileReader();
@@ -120,18 +120,18 @@
           var ctx1 = imageCanvas.getContext('2d');
           var ctx2 = spiralCanvas.getContext('2d');
 
-          // Ustal rozmiar kwadratowego obrazu
+          // Determine the square size of the image
           var size = Math.min(image.width, image.height);
           var targetSize = spiralCanvas.width;
 
-          // Pomniejsz obraz do rozmiaru kanwy
+          // Resize the image to match the canvas size
           var resizedImage = resizeImage(image, targetSize);
 
-          // Czyszczenie kanwy przed narysowaniem nowego obrazu i spirali
+          // Clear the canvas before drawing a new image and spiral
           ctx1.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
           ctx2.clearRect(0, 0, spiralCanvas.width, spiralCanvas.height);
 
-          // Następnie rysuj nowy obraz i spiralną linię
+          // Draw the new image and spiral line
           ctx1.drawImage(resizedImage, 0, 0, targetSize, targetSize);
 
           drawSpiral(resizedImage);
@@ -141,48 +141,24 @@
       reader.readAsDataURL(file);
     });
 
-    // Obsługa zmiany wartości suwaka Max Line Width
+    // Handle changes in the Max Line Width slider
     document.getElementById('lineWidthRange').addEventListener('input', function(event) {
       drawSpiral();
     });
 
-    // Obsługa zmiany wartości suwaka Radius Step
+    // Handle changes in the Radius Step slider
     document.getElementById('radiusStepRange').addEventListener('input', function(event) {
       drawSpiral();
     });
 
-    // Obsługa zmiany wartości suwaka Angle Step
+    // Handle changes in the Angle Step slider
     document.getElementById('angleStepRange').addEventListener('input', function(event) {
       drawSpiral();
     });
 
-    // Obsługa zmiany wartości suwaka Min Line Width
+    // Handle changes in the Min Line Width slider
     document.getElementById('minLineWidthRange').addEventListener('input', function(event) {
       drawSpiral();
-	  
-	      // Funkcja do kolorowania linii spiralnych
-    function coloringLines() {
-      var spiralCanvas = document.getElementById('spiralCanvas');
-      var ctx2 = spiralCanvas.getContext('2d');
-      
-      // Pobierz dane o pikselach spirali
-      var imageData = ctx2.getImageData(0, 0, spiralCanvas.width, spiralCanvas.height);
-      var pixels = imageData.data;
-
-      // Przeprowadź odpowiednią operację kolorowania linii spiralnych
-
-      // Narysuj ponownie spirale z nowym kolorem
-
-      ctx2.putImageData(imageData, 0, 0);
-    }
-
-    // Wywołaj funkcję coloringLines po narysowaniu spirali
-    function drawSpiral(image) {
-      // Poprzedni kod drawSpiral
-
-      // Wywołaj funkcję coloringLines
-      coloringLines();
-    }
     });
   </script>
 </body>
