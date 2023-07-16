@@ -1,41 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Spiral Line</title>
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     input[type="range"] {
       width: 100%;
+      margin-bottom: 10px;
     }
 
     label {
-      font-size: 80px;
+      font-size: 24px;
       font-weight: bold;
+      margin-bottom: 5px;
     }
 
     input[type="file"] {
-      font-size: 60px;
-      padding: 10px;
+      font-size: 24px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
     }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <input type="file" id="fileInput">
-  <br>
-  <label for="lineWidthRange">Max Line Width:</label>
-  <input type="range" id="lineWidthRange" min="1" max="200" step="0.2" value="30">
-  <br>
-  <label for="radiusStepRange">Radius Step:</label>
-  <input type="range" id="radiusStepRange" min="0.006" max="0.2" step="0.001" value="0.02">
-  <br>
-  <label for="angleStepRange">Angle Step:</label>
-  <input type="range" id="angleStepRange" min="0.05" max="2" step="0.01" value="0.2">
-  <br>
-  <label for="minLineWidthRange">Min Line Width:</label>
-  <input type="range" id="minLineWidthRange" min="1" max="20" value="6">
-  <br>
-  <canvas id="imageCanvas" width="2480" height="2480"></canvas>
-  <canvas id="spiralCanvas" width="2480" height="2480"></canvas>
+  <div class="container">
+    <h1>Spiral Line</h1>
+    <input type="file" id="fileInput">
+    <label for="lineWidthRange">Max Line Width:</label>
+    <input type="range" id="lineWidthRange" min="1" max="200" step="0.2" value="30">
+    <label for="radiusStepRange">Radius Step:</label>
+    <input type="range" id="radiusStepRange" min="0.006" max="0.2" step="0.001" value="0.02">
+    <label for="angleStepRange">Angle Step:</label>
+    <input type="range" id="angleStepRange" min="0.05" max="2" step="0.01" value="0.2">
+    <label for="minLineWidthRange">Min Line Width:</label>
+    <input type="range" id="minLineWidthRange" min="1" max="20" value="6">
+    <canvas id="spiralCanvas" width="1000" height="1000"></canvas>
+    <canvas id="imageCanvas" width="1000" height="1000"></canvas>
+  </div>
 
   <script>
     // Function to draw the spiral on the canvas
